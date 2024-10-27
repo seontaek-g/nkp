@@ -8,8 +8,6 @@ spec:
   url: https://github.com/seontaek-g/nkp.git
   ref:
     branch: main
-EOF
-kubectl apply -f gitrepo.yaml
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1 
 kind: Kustomization
