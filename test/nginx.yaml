@@ -4,7 +4,7 @@ metadata:
   name: nginx-pod-from-github
 spec:
   containers:
-    - name: nginx
+    - name: nginx-pod-from-github
       image: nginx
       ports:
         - containerPort: 80
