@@ -1,0 +1,11 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: charts.pravega.io
+  namespace: ${workspaceNamespace}
+  labels:
+    kommander.d2iq.io/dkp-airgapped: supported
+spec:
+  url: "${helmMirrorURL:=https://charts.pravega.io}"
+  interval: 10m
