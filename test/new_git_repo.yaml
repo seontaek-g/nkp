@@ -1,0 +1,98 @@
+cat <<EOF > new_git_repo.yaml
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  generation: 3
+  labels:
+    kommander.d2iq.io/managed-by-kind: GitopsRepository
+    kustomize.toolkit.fluxcd.io/name: seontaek-g
+    kustomize.toolkit.fluxcd.io/namespace: default
+  name: seontaek-g
+  namespace: default
+spec:
+  interval: 3m0s
+  ref:
+    branch: main
+  timeout: 1m0s
+  url: https://github.com/seontaek-g/nkp.git
+EOF
+kubectl apply -f new_git_repo.yaml
+
+
+#########################적용후 yaml 출력##################################
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"source.toolkit.fluxcd.io/v1","kind":"GitRepository","metadata":{"annotations":{},"generation":3,"labels":{"kommander.d2iq.io/managed-by-kind":"GitopsRepository","kustomize.toolkit.fluxcd.io/name":"seontaek-g","kustomize.toolkit.fluxcd.io/namespace":"default"},"name":"seontaek-g","namespace":"default"},"spec":{"interval":"3m0s","ref":{"branch":"main"},"timeout":"1m0s","url":"https://github.com/seontaek-g/nkp.git"}}
+  creationTimestamp: "2024-10-28T03:58:06Z"
+  finalizers:
+  - kommander.d2iq.io/kommander-catalog-repository
+  - finalizers.fluxcd.io
+  - kommander.d2iq.io/gitrepository-apps
+  generation: 3
+  labels:
+    kommander.d2iq.io/managed-by-kind: GitopsRepository
+    kustomize.toolkit.fluxcd.io/name: seontaek-g
+    kustomize.toolkit.fluxcd.io/namespace: default
+  name: seontaek-g
+  namespace: default
+  resourceVersion: "1018138"
+  uid: 3f1c0cdc-3337-4d13-82b2-4a86d1a4558d
+spec:
+  interval: 3m0s
+  ref:
+    branch: main
+  timeout: 1m0s
+  url: https://github.com/seontaek-g/nkp.git
+status:
+  artifact:
+    digest: sha256:3337d1b21104378558b564a9eddce604e65690eaa7d749a1d662c85ffc0daf52
+    lastUpdateTime: "2024-10-28T03:58:07Z"
+    path: gitrepository/default/seontaek-g/c6ca6bb778cd11e44513a6d34122314075b8283b.tar.gz
+    revision: main@sha1:c6ca6bb778cd11e44513a6d34122314075b8283b
+    size: 1280
+    url: http://source-controller.kommander-flux.svc.cluster.local./gitrepository/default/seontaek-g/c6ca6bb778cd11e44513a6d34122314075b8283b.tar.gz
+  conditions:
+  - lastTransitionTime: "2024-10-28T03:58:07Z"
+    message: stored artifact for revision 'main@sha1:c6ca6bb778cd11e44513a6d34122314075b8283b'
+    observedGeneration: 3
+    reason: Succeeded
+    status: "True"
+    type: Ready
+  - lastTransitionTime: "2024-10-28T03:58:07Z"
+    message: stored artifact for revision 'main@sha1:c6ca6bb778cd11e44513a6d34122314075b8283b'
+    observedGeneration: 3
+    reason: Succeeded
+    status: "True"
+    type: ArtifactInStorage
+  observedGeneration: 3
+
+
+############################################################
+
+
+
+cat <<EOF > dispatch.yaml
+apiVersion: dispatch.d2iq.io/v1alpha2
+kind: GitopsRepository
+metadata:
+  generation: 2
+  name: seontaek-g
+  namespace: default
+spec:
+  cloneUrl: https://github.com/seontaek-g/nkp.git
+  template:
+    path: ./workloads
+    ref:
+      branch: main
+EOF
+kubectl apply -f dispatch.yaml 
+
+Error from server (NotAcceptable): error when creating "dispatch.yaml": admission webhook "webhook.federation.kommander.mesosphere.io" denied the request: metadata.namespace: Internal error: GitopsRepository can only be created in project namespace. "default" is not a Project namespace
+[root@jumphost ~]# 
+
+---
+
+
